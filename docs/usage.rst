@@ -133,7 +133,7 @@ write the :math:`B^{0}\to K^{*}\gamma` decay chain as (more details can be found
         kstar_mass_cast = tf.cast(KSTARZ_MASS, dtype=tf.float64)
 
         kstar_mass = tf.broadcast_to(kstar_mass_cast, shape=(n_events,))
-        if kstar_width > 0:
+        if KSTARZ_WIDTH > 0:
             kstar_mass = tfp.distributions.TruncatedNormal(loc=kstar_mass,
                                                            scale=kstar_width_cast,
                                                            low=min_mass,
