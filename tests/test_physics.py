@@ -29,7 +29,7 @@ from phasespace import phasespace
 
 sys.path.append(os.path.dirname(__file__))
 
-from .helpers import decays, rapidsim
+from .helpers import decays, rapidsim, tf_only
 from .helpers.plotting import make_norm_histo
 
 BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -268,6 +268,7 @@ def test_kstargamma_kstarnonresonant_lhc():
     assert np.all(p_values > 0.05)
 
 
+@tf_only
 def test_kstargamma_resonant_at_rest():
     """Test B0 -> K* gamma physics with Gaussian mass for K*.
 
@@ -382,6 +383,7 @@ def test_k1gamma_kstarnonresonant_lhc():
     assert np.all(p_values > 0.05)
 
 
+@tf_only
 def test_k1gamma_resonant_at_rest():
     """Test B0 -> K1 (->K*pi) gamma physics.
 

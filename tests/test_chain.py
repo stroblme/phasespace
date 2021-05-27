@@ -16,7 +16,7 @@ from phasespace import GenParticle
 
 sys.path.append(os.path.dirname(__file__))
 
-from .helpers import decays
+from .helpers import decays, tf_only
 
 
 def test_name_clashes():
@@ -93,6 +93,7 @@ def test_resonance_top():
         kstar.generate(n_events=1)
 
 
+@tf_only
 def test_kstargamma():
     """Test B0 -> K*gamma."""
     decay = decays.b0_to_kstar_gamma()
@@ -104,6 +105,7 @@ def test_kstargamma():
     assert all(part.shape == (1000, 4) for part in particles.values())
 
 
+@tf_only
 def test_k1gamma():
     """Test B+ -> K1 (K*pi) gamma."""
     decay = decays.bp_to_k1_kstar_pi_gamma()
