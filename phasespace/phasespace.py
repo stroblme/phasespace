@@ -31,12 +31,6 @@ RELAX_SHAPES = False
 from math import pi
 from typing import Callable, Dict, Optional, Tuple, Union
 
-try:
-    from tensorflow import Tensor, Variable
-except ImportError:
-    Tensor = tnp.ndarray
-    Variable = tnp.ndarray
-
 
 def process_list_to_tensor(lst):
     """Convert a list to a tensor.
