@@ -55,3 +55,5 @@ jobs:
         run: PHASESPACE_EAGER=0 pytest --basetemp={envtmpdir}
       - name: Test with pytest (eager mode)
         run: PHASESPACE_EAGER=1 pytest --basetemp={envtmpdir}
+      - name: Test with pytest (NumPy backend)
+        run: PHASESPACE_BACKEND=NUMPY pytest --basetemp={envtmpdir}
