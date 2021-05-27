@@ -5,6 +5,7 @@ __all__ = [
     "function",
     "function_jit",
     "function_jit_fixedshape",
+    "get_shape",
     "random",
     "tnp",
 ]
@@ -47,5 +48,8 @@ if BACKEND == BackendType.TENSORFLOW:
         experimental_relax_shapes=False,
         **{jit_compile_argname: True},
     )
+
+    get_shape = tf.shape  # get shape dynamically
+
     is_eager = bool(os.environ.get("PHASESPACE_EAGER"))
     tf.config.run_functions_eagerly(is_eager)

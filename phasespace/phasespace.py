@@ -13,7 +13,8 @@ The code is based on the GENBOD function (W515 from CERNLIB), documented in:
 import inspect
 import warnings
 
-from .backend import function, function_jit_fixedshape
+from . import kinematics as kin
+from .backend import function, function_jit_fixedshape, get_shape, tnp
 from .random import SeedLike, generate_uniform, get_rng
 
 RELAX_SHAPES = False
@@ -248,7 +249,7 @@ class GenParticle:
             if n_events is not None:
                 momentum_shape = momentum.shape[0]
                 if momentum_shape is None:
-                    momentum_shape = tf.shape(momentum)[0]
+                    momentum_shape = get_shape(momentum)[0]
                     momentum_shape = tnp.asarray(momentum_shape, tnp.int64)
                 else:
                     momentum_shape = tnp.asarray(momentum_shape, dtype=tnp.int64)
@@ -262,7 +263,7 @@ class GenParticle:
             if len(momentum.shape) == 2:
                 n_events = momentum.shape[0]
                 if n_events is None:  # dynamic shape
-                    n_events = tf.shape(momentum)[0]
+                    n_events = get_shape(momentum)[0]
                     n_events = tnp.asarray(n_events, dtype=tnp.int64)
             else:
                 n_events = tnp.asarray(1, dtype=tnp.int64)
@@ -657,7 +658,7 @@ class GenParticle:
                 f"The number of events requested ({n_events}) doesn't match the boost_to input size "
                 f"of {boost_to.shape}"
             )
-            tf.assert_equal(tf.shape(boost_to)[0], tf.shape(n_events), message=message)
+            tf.assert_equal(len(boost_to), n_events, message=message)
         if not isinstance(n_events, tf.Variable):
             n_events = tnp.asarray(n_events, dtype=tnp.int64)
         weights, weights_max, parts, _ = self._recursive_generate(
