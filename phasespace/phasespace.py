@@ -31,11 +31,11 @@ RELAX_SHAPES = False
 from math import pi
 from typing import Callable, Dict, Optional, Tuple, Union
 
-import tensorflow as tf
-
-from phasespace.backend import tnp
-
-from . import kinematics as kin
+try:
+    from tensorflow import Tensor, Variable
+except ImportError:
+    Tensor = tnp.ndarray
+    Variable = tnp.ndarray
 
 
 def process_list_to_tensor(lst):
@@ -108,9 +108,7 @@ class GenParticle:
         if not callable(mass) and not isinstance(mass, Variable):
             mass = tnp.asarray(mass, dtype=tnp.float64)
         else:
-            mass = tf.function(
-                mass, autograph=False, experimental_relax_shapes=RELAX_SHAPES
-            )
+            mass = function(mass)
         self._mass = mass
         self._generate_called = False  # not yet called, children can be set
 

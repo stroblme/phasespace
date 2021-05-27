@@ -1,12 +1,21 @@
 import numpy as np
 import pytest
-import tensorflow as tf
 
 import phasespace as phsp
 
 
+def create_from_seed_input():
+    import tensorflow as tf
+
+    return tf.random.Generator.from_seed(15)
+
+
 @pytest.mark.parametrize(
-    "seed", [lambda: 15, lambda: tf.random.Generator.from_seed(15)]
+    "seed",
+    [
+        lambda: 15,
+        create_from_seed_input,
+    ],
 )
 def test_get_rng(seed):
     rng1 = phsp.random.get_rng(seed())
