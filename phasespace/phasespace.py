@@ -15,6 +15,8 @@ import warnings
 
 from . import kinematics as kin
 from .backend import (
+    Tensor,
+    Variable,
     assert_equal,
     assert_greater_equal,
     function,
@@ -103,7 +105,7 @@ class GenParticle:
         self.name = name
         self.children = []
         self._mass_val = mass
-        if not callable(mass) and not isinstance(mass, tf.Variable):
+        if not callable(mass) and not isinstance(mass, Variable):
             mass = tnp.asarray(mass, dtype=tnp.float64)
         else:
             mass = tf.function(
@@ -138,11 +140,11 @@ class GenParticle:
     @function
     def get_mass(
         self,
-        min_mass: tf.Tensor = None,
-        max_mass: tf.Tensor = None,
-        n_events: Union[tf.Tensor, tf.Variable] = None,
+        min_mass: Tensor = None,
+        max_mass: Tensor = None,
+        n_events: Union[Tensor, Variable] = None,
         seed: SeedLike = None,
-    ) -> tf.Tensor:
+    ) -> Tensor:
         """Get the particle mass.
 
         If the particle is resonant, the mass function will be called with the
@@ -619,11 +621,11 @@ class GenParticle:
 
     def generate(
         self,
-        n_events: Union[int, tf.Tensor, tf.Variable],
-        boost_to: Optional[tf.Tensor] = None,
+        n_events: Union[int, Tensor, Variable],
+        boost_to: Optional[Tensor] = None,
         normalize_weights: bool = True,
         seed: SeedLike = None,
-    ) -> Tuple[tf.Tensor, Dict[str, tf.Tensor]]:
+    ) -> Tuple[Tensor, Dict[str, Tensor]]:
         """Generate normalized n-body phase space as tensorflow tensors.
 
         Any TensorFlow tensor can always be converted to a numpy array with the method `numpy()`.
@@ -666,7 +668,7 @@ class GenParticle:
                 f"of {boost_to.shape}"
             )
             assert_equal(len(boost_to), n_events, message=message)
-        if not isinstance(n_events, tf.Variable):
+        if not isinstance(n_events, Variable):
             n_events = tnp.asarray(n_events, dtype=tnp.int64)
         weights, weights_max, parts, _ = self._recursive_generate(
             n_events=n_events,

@@ -49,6 +49,8 @@ if BACKEND == BackendType.TENSORFLOW:
         **{jit_compile_argname: True},
     )
 
+    Tensor = tf.Tensor
+    Variable = tf.Variable
     get_shape = tf.shape  # get shape dynamically
     assert_equal = tf.assert_equal
     assert_greater_equal = tf.debugging.assert_greater_equal
