@@ -22,7 +22,8 @@ from math import pi
 from typing import Callable, Dict, Optional, Tuple, Union
 
 import tensorflow as tf
-import tensorflow.experimental.numpy as tnp
+
+from phasespace.backend import tnp
 
 from . import kinematics as kin
 
