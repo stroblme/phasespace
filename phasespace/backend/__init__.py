@@ -5,6 +5,7 @@ __all__ = [
     "function",
     "function_jit",
     "function_jit_fixedshape",
+    "random",
     "tnp",
 ]
 
@@ -24,6 +25,8 @@ BACKEND = BackendType.get_backend(os.environ.get("PHASESPACE_BACKEND", ""))
 if BACKEND == BackendType.TENSORFLOW:
     import tensorflow as tf
     import tensorflow.experimental.numpy as tnp
+
+    from . import _tf_random as random
 
     if int(tf.__version__.split(".")[1]) < 5:  # smaller than 2.5
         jit_compile_argname = "experimental_compile"
