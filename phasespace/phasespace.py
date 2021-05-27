@@ -14,7 +14,14 @@ import inspect
 import warnings
 
 from . import kinematics as kin
-from .backend import function, function_jit_fixedshape, get_shape, tnp
+from .backend import (
+    assert_equal,
+    assert_greater_equal,
+    function,
+    function_jit_fixedshape,
+    get_shape,
+    tnp,
+)
 from .random import SeedLike, generate_uniform, get_rng
 
 RELAX_SHAPES = False
@@ -253,7 +260,7 @@ class GenParticle:
                     momentum_shape = tnp.asarray(momentum_shape, tnp.int64)
                 else:
                     momentum_shape = tnp.asarray(momentum_shape, dtype=tnp.int64)
-                tf.assert_equal(
+                assert_equal(
                     n_events,
                     momentum_shape,
                     message="Conflicting inputs -> momentum_shape and n_events",
@@ -342,7 +349,7 @@ class GenParticle:
         # if len(masses.shape) == 1:
         #     masses = tnp.expand_dims(masses, axis=0)
         available_mass = top_mass - tnp.sum(masses, axis=1, keepdims=True)
-        tf.debugging.assert_greater_equal(
+        assert_greater_equal(
             available_mass,
             tnp.zeros_like(available_mass, dtype=tnp.float64),
             message="Forbidden decay",
@@ -658,7 +665,7 @@ class GenParticle:
                 f"The number of events requested ({n_events}) doesn't match the boost_to input size "
                 f"of {boost_to.shape}"
             )
-            tf.assert_equal(len(boost_to), n_events, message=message)
+            assert_equal(len(boost_to), n_events, message=message)
         if not isinstance(n_events, tf.Variable):
             n_events = tnp.asarray(n_events, dtype=tnp.int64)
         weights, weights_max, parts, _ = self._recursive_generate(

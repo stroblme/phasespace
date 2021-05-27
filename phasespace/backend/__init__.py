@@ -50,6 +50,8 @@ if BACKEND == BackendType.TENSORFLOW:
     )
 
     get_shape = tf.shape  # get shape dynamically
+    assert_equal = tf.assert_equal
+    assert_greater_equal = tf.debugging.assert_greater_equal
 
     is_eager = bool(os.environ.get("PHASESPACE_EAGER"))
     tf.config.run_functions_eagerly(is_eager)
