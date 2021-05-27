@@ -5,16 +5,15 @@ As the random number generation is not a trivial thing, this module handles it u
 It mimicks the TensorFlows API on random generators and relies (currently) in global states on the TF global states.
 Especially on the global random number generator which will be used to get new generators.
 """
-from typing import Optional, Union
 
-import tensorflow as tf
+from typing import Optional, Tuple, Union
 
-from phasespace.backend import random
+from phasespace.backend import random, tnp
 
-SeedLike = Optional[Union[int, tf.random.Generator]]
+SeedLike = Optional[Union[int, random.Generator]]
 
 
-def get_rng(seed: SeedLike = None) -> tf.random.Generator:
+def get_rng(seed: SeedLike = None) -> random.Generator:
     """Get or create a random number generators of type `tf.random.Generator`.
 
     This can be used to either retrieve random number generators deterministically from them
@@ -36,8 +35,17 @@ def get_rng(seed: SeedLike = None) -> tf.random.Generator:
     """
     if seed is None:
         rng = random.default_rng()
-    elif not isinstance(seed, tf.random.Generator):  # it's a seed, not an rng
-        rng = random.Generator.from_seed(seed=seed)
+    elif not isinstance(seed, random.Generator):  # it's a seed, not an rng
+        rng = random.from_seed(seed)
     else:
         rng = seed
     return rng
+
+
+def generate_uniform(
+    rng: random.Generator, shape: Tuple[int, ...], minval=0, maxval=1, dtype=tnp.float64
+) -> tnp.ndarray:
+    try:
+        return rng.uniform(shape, minval=minval, maxval=maxval, dtype=dtype)
+    except TypeError:
+        return rng.uniform(low=minval, high=maxval, size=shape).astype(dtype)
