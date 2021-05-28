@@ -19,15 +19,12 @@ if platform.system() == "Darwin":
     matplotlib.use("TkAgg")
 
 import os
-import sys
 
 import matplotlib.pyplot as plt
 import uproot4
 
 from phasespace import phasespace
 from phasespace.backend import tnp
-
-sys.path.append(os.path.dirname(__file__))
 
 from .helpers import decays, rapidsim, tf_only
 from .helpers.plotting import make_norm_histo
@@ -274,9 +271,9 @@ def test_kstargamma_kstarnonresonant_lhc():
 def test_kstargamma_resonant_at_rest():
     """Test B0 -> K* gamma physics with Gaussian mass for K*.
 
-    Since we don't have BW and we model the resonances with Gaussians, we can't really perform the Kolmogorov test wrt
-    to RapidSim, so plots are generated and can be inspected by the user. However, small differences are expected in the
-    tails of the energy distributions of the kaon and the pion.
+    Since we don't have BW and we model the resonances with Gaussians, we can't really perform the Kolmogorov
+    test wrt to RapidSim, so plots are generated and can be inspected by the user. However, small differences
+    are expected in the tails of the energy distributions of the kaon and the pion.
     """
     run_kstargamma(
         "B2KstGamma_RapidSim_7TeV_Tree.root", decays.KSTARZ_WIDTH, True, "Gaussian"
@@ -389,8 +386,8 @@ def test_k1gamma_kstarnonresonant_lhc():
 def test_k1gamma_resonant_at_rest():
     """Test B0 -> K1 (->K*pi) gamma physics.
 
-    Since we don't have BW and we model the resonances with Gaussians, we can't really perform the Kolmogorov test wrt
-    to RapidSim, so plots are generated and can be inspected by the user.
+    Since we don't have BW and we model the resonances with Gaussians, we can't really perform the Kolmogorov
+    test wrt to RapidSim, so plots are generated and can be inspected by the user.
     """
     run_k1_gamma(
         "B2K1Gamma_RapidSim_7TeV_Tree.root",

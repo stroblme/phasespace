@@ -6,15 +6,10 @@
 # =============================================================================
 """Basic dimensionality tests."""
 
-import os
-import sys
-
 import numpy as np
 import pytest
 
 import phasespace
-
-sys.path.append(os.path.dirname(__file__))
 
 from .helpers import decays
 
