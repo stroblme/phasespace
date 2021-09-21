@@ -15,7 +15,6 @@ Behavioral changes
 
 Bug fixes and small changes
 ---------------------------
-- improved compilation in tf.functions, use of XLA where applicable
 
 Requirement changes
 -------------------
@@ -23,6 +22,37 @@ Requirement changes
 
 Thanks
 ------
+
+1.4.1 (27.08.2021)
+==================
+
+Requirement changes
+-------------------
+- Losen restriction on TensorFlow, allow version 2.6 (and 2.5)
+
+1.4.0 (11.06.2021)
+==================
+
+Requirement changes
+-------------------
+- require TensorFlow 2.5 as 2.4 breaks some functionality
+
+1.3.0 (28.05.2021)
+===================
+
+
+Major Features and Improvements
+-------------------------------
+
+- Support Python 3.9
+- Support TensorFlow 2.5
+- improved compilation in tf.functions, use of XLA where applicable
+- developer: modernization of setup, CI and more
+
+Thanks
+------
+
+- Remco de Boer for many commits and cleanups
 
 1.2.0 (17.12.20)
 ================

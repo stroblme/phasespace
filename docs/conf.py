@@ -38,8 +38,17 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.napoleon",
     "sphinx.ext.mathjax",
+    "sphinx_math_dollar",
+    "jupyter_sphinx",
 ]
 
+
+mathjax_config = {
+    "tex2jax": {
+        "inlineMath": [["\\(", "\\)"]],
+        "displayMath": [["\\[", "\\]"]],
+    },
+}
 using_numpy_style = False  # False -> google style
 
 # Napoleon settings (convert numpy/google docstrings to proper ReST
@@ -98,6 +107,16 @@ pygments_style = "sphinx"
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False
+
+# makes the jupyter extension executable
+jupyter_sphinx_thebelab_config = {
+    "requestKernel": True,
+    "binderOptions": {
+        "repo": "zfit/phasespace",
+        "binderUrl": "https://mybinder.org",
+        "repoProvider": "github",
+    },
+}
 
 # -- Options for HTML output -------------------------------------------
 
