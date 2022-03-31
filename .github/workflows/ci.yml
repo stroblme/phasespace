@@ -70,4 +70,3 @@ jobs:
           cd docs
           PHASESPACE_EAGER=NUMPY pytest --nbval-lax --ignore=.ipynb_checkpoints
           cd ..
-
