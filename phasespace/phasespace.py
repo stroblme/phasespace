@@ -10,10 +10,12 @@ The code is based on the GENBOD function (W515 from CERNLIB), documented in:
 
       F. James, Monte Carlo Phase Space, CERN 68-15 (1968)
 """
+from __future__ import annotations
+
 import inspect
 import warnings
+from collections.abc import Callable
 from math import pi
-from typing import Callable, Dict, Optional, Tuple, Union
 
 from . import kinematics as kin
 from .backend import (
@@ -92,7 +94,7 @@ class GenParticle:
             converted to a `tf.constant`.
     """
 
-    def __init__(self, name: str, mass: Union[Callable, int, float]) -> None:  # noqa
+    def __init__(self, name: str, mass: Callable | int | float) -> None:  # noqa
         self.name = name
         self.children = []
         self._mass_val = mass

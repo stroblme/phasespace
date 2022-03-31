@@ -3,7 +3,7 @@
 
 name: tests
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   codecov:
@@ -15,13 +15,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install --use-feature=2020-resolver -e .[test]
+          pip install --use-feature=2020-resolver -e .[dev]
           pip install coverage
       - name: Download test data
         run: python data/download_test_files.py > /dev/null
@@ -29,7 +29,7 @@ jobs:
         run: coverage run -m pytest --basetemp={envtmpdir}
       - name: Create XML report
         run: coverage xml
-      - uses: codecov/codecov-action@v2.0.3
+      - uses: codecov/codecov-action@v2.1.0
         with:
           file: ./coverage.xml
 
@@ -38,22 +38,36 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.6, 3.7, 3.9]
+        python-version: [3.7, 3.9]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          sudo apt-get install graphviz -y
           pip install --use-feature=2020-resolver -e .[dev]
       - name: Download test data
         run: python data/download_test_files.py > /dev/null
       - name: Test with pytest
-        run: PHASESPACE_EAGER=0 pytest --basetemp={envtmpdir}
+        run: |
+          PHASESPACE_EAGER=0 pytest --basetemp={envtmpdir} tests
+          cd docs
+          PHASESPACE_EAGER=0 pytest --nbval-lax --ignore=.ipynb_checkpoints
+          cd ..
       - name: Test with pytest (eager mode)
-        run: PHASESPACE_EAGER=1 pytest --basetemp={envtmpdir}
+        run: |
+          PHASESPACE_EAGER=1 pytest --basetemp={envtmpdir}
+          cd docs
+          PHASESPACE_EAGER=1 pytest --nbval-lax --ignore=.ipynb_checkpoints
+          cd ..
       - name: Test with pytest (NumPy backend)
-        run: PHASESPACE_BACKEND=NUMPY pytest --basetemp={envtmpdir}
+        run: |
+          PHASESPACE_BACKEND=NUMPY pytest --basetemp={envtmpdir}
+          cd docs
+          PHASESPACE_EAGER=NUMPY pytest --nbval-lax --ignore=.ipynb_checkpoints
+          cd ..
+

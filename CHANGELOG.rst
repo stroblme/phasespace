@@ -23,6 +23,35 @@ Requirement changes
 Thanks
 ------
 
+
+1.5.0 (27 Nov 2021)
+===================
+
+
+Major Features and Improvements
+-------------------------------
+- add support to generate from a DecayChain using
+  `the decaylanguage <https://github.com/scikit-hep/decaylanguage>`_ package from Scikit-HEP.
+  This is in the new subpackage "fromdecay" and can be used by installing the extra with
+  ``pip install phasespace[fromdecay]``.
+
+
+Requirement changes
+-------------------
+- drop Python 3.6 support
+
+
+Thanks
+------
+- to Simon Thor for contributing the ``fromdecay`` subpackage.
+
+1.4.2 (5.11.2021)
+==================
+
+Requirement changes
+-------------------
+- Losen restriction on TensorFlow, allow version 2.7 (and 2.5, 2.6)
+
 1.4.1 (27.08.2021)
 ==================
 
